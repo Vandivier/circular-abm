@@ -77,11 +77,12 @@ var svg = d3.select('#chart').append('svg')
     .append('g')
     .attr('transform', 'translate(' + margin + ',' + margin + ')');
 
+//ref: attrs http://stackoverflow.com/questions/20822466/how-to-set-multiple-attributes-with-one-value-function/38209449#38209449
+//var pool = svg.append('circle').style('stroke-width', strokeWidth * 2).attr('r', radius);
 
-/*
 var pool = svg.append('circle')
     .style('stroke-width', strokeWidth * 2)
-    .attr({
+    .attrs({
         class: 'pool',
         r: radius,
         cy: 0,
@@ -89,36 +90,26 @@ var pool = svg.append('circle')
         transform: 'translate(' + iWidth / 2 + ',' + iHeight / 2 + ')'
     });
 
-var node = svg.selectAll('.nodes')
-    .data(oNodes)
-.enter().append('circle')
-    .attr({
-        class: 'nodes',
-        r: function (oNode) { return d.rad + nodeBaseRad },
-        fill: "#fff8d1"
-    });
-*/
-var pool = svg.append('circle').style('stroke-width', strokeWidth * 2).attr('r', radius);
-
 var oNodes = randomNodes(20);
 
 var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(iWidth / 2, iHeight / 2));
 
-  var node = pool.append("g")
-      .attr("class", "nodes")
-    .selectAll("circle")
-    .data(oNodes)
-    .enter().append("circle")
-      .attr("r", 2.5)
-      .call(d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended));
+    
 
-  node.append("title")
-      .text(function(d) { return d.id; });
+var node = svg.selectAll('.nodes')
+    .data(oNodes)
+.enter().append('circle')
+    .attrs({
+        class: 'nodes',
+        r: function (oNode) { return oNode.rad + nodeBaseRad },
+        fill: "#fff8d1"
+    })
+    .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
 
   simulation
       .nodes(oNodes)
