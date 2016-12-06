@@ -1,0 +1,9 @@
+#chart {
+    width: 600px;
+    margin: 0 auto;
+}
+
+.pool {
+    fill: #3db1ff;
+    stroke: #4f4f4f;
+}
